@@ -33,6 +33,12 @@ public class UserController {
         return new ResponseEntity<>(new GlobalResponse<>(userDto), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteOne(@PathVariable UUID userId) {
+        userService.deleteOne(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @PostMapping
     public ResponseEntity<GlobalResponse<User>> createOne(
             @RequestBody @Valid UserCreate user
