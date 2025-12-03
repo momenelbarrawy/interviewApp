@@ -2,6 +2,7 @@ package com.example.interviewapp.services;
 
 import com.example.interviewapp.abstracts.UserService;
 import com.example.interviewapp.dto.UserCreate;
+import com.example.interviewapp.dto.UserDto;
 import com.example.interviewapp.entities.User;
 import com.example.interviewapp.repositpories.UserRepo;
 import com.example.interviewapp.shared.CustomResponseException;
@@ -17,12 +18,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public User findone(UUID userId) {
+    public UserDto findOne(UUID userId) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> CustomResponseException.ResourceNotFound(
                         "User with id " + userId + " not found"
                 ));
-        return user;
+        UserDto userDto = new UserDto(
+                user.getId(),
+                user.getEmail(),
+                user.getFullName(),
+                user.getPassword(),
+                user.getRole()
+        );
+        return userDto;
     }
 
     public List<User> findAll() {
@@ -37,7 +45,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userCreate.password());
         user.setRole(userCreate.role());
         userRepo.save(user);
-        
+
         return user;
     }
 
