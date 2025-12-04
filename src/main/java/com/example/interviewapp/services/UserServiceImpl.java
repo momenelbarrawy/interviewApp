@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> existingUser = userRepo.findByEmail(userCreate.email());
         if (existingUser.isPresent()) {
-            throw CustomResponseException.BadRuqest("email already exists");
+            throw CustomResponseException.BadRuqest("Invalid email");
         }
 
         User user = new User();
